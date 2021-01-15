@@ -11,7 +11,7 @@ variables:
   generic_mission: 'AppTick|CommsTick|Community|ProcessConfig|ServerHost|ServerPort|LatOrigin|LongOrigin|MOOSTimeWarp|MaxAppTick|IterateMode'
   generic_bhv: 'initialize|set|name|pwt|duration|duration_idle_decay|duration_status|duration_reset|condition|updates|perpetual|configflag|spawnflag|endflag|runflag|idleflag|activeflag|inactiveflag|templating'
 
-  known_apps: '\b(MOOSDB|ANTLER|iM300|uSockComms|uSimTowBody|uSimWaterway|pMissionEval|uFldVoronoi|pRealm|uSimHeron|uFldVoronoi|uMemWatch|uFldCollObDetect|uFldObstacleSim|uFldWrapDetect|pMovingSurvey|pHostInfoV2|uTimerScript|uProcessWatch|uSimMarine|uSimMarineTow|uSimMarineX|pHelmIvP|pMarinePID|uTermCommand|pNodeReporter|pMarineViewer|uFldContactRangeSensor|uFldNodeComms|uFldFlagManager|uDialogManager|uFunctionVis|uSpeechRec|uFldTagManager|uFldShoreBroker|uCommand|uFldNodeBroker|pHostInfo|pEchoVar|pSearchGrid|uPlotViewer|iM200|pObstacleMgr|pPoseKeep|uFldHazardSensor|uFldHazardMgr|uFldHazardMetric|uFldMessageHandler|uMACView|uMAC|pDeadManPost|pRangeEvent|uPokeDB|uQueryDB|uHelmScope|pSafetyRetreat|uFldBeaconRangeSensor|uFldPathCheck|pShare|pBasicContactMgr|pContactMgrV20|uLoadWatch|uSimLidar|iSay|uXMS|uSimCurrent|pEvalLoiter|uFldSwarmAssign|pProxonoi|uFldCollisionDetect|pPolePath|pRangeSensorHangler|uFldDepthChargeMgr|uFldProtocolEval|uScoreKeeper|pParticleFilter|pLogger)\b'
+  known_apps: 'MOOSDB|ANTLER|iM300|uSockComms|uSimTowBody|uSimWaterway|pMissionEval|uFldVoronoi|pRealm|uSimHeron|uFldVoronoi|uMemWatch|uFldCollObDetect|uFldObstacleSim|uFldWrapDetect|pMovingSurvey|pHostInfoV2|uTimerScript|uProcessWatch|uSimMarine|uSimMarineTow|uSimMarineX|pHelmIvP|pMarinePID|uTermCommand|pNodeReporter|pMarineViewer|uFldContactRangeSensor|uFldNodeComms|uFldFlagManager|uDialogManager|uFunctionVis|uSpeechRec|uFldTagManager|uFldShoreBroker|uCommand|uFldNodeBroker|pHostInfo|pEchoVar|pSearchGrid|uPlotViewer|iM200|pObstacleMgr|pPoseKeep|uFldHazardSensor|uFldHazardMgr|uFldHazardMetric|uFldMessageHandler|uMACView|uMAC|pDeadManPost|pRangeEvent|uPokeDB|uQueryDB|uHelmScope|pSafetyRetreat|uFldBeaconRangeSensor|uFldPathCheck|pShare|pBasicContactMgr|pContactMgrV20|uLoadWatch|uSimLidar|iSay|uXMS|uSimCurrent|pEvalLoiter|uFldSwarmAssign|pProxonoi|uFldCollisionDetect|pPolePath|pRangeSensorHangler|uFldDepthChargeMgr|uFldProtocolEval|uScoreKeeper|pParticleFilter|pLogger'
 
 # -------------------------------------------------------------------------
 contexts:
@@ -32,9 +32,9 @@ contexts:
         1: keyword.control.moos
       set: [bhv_config]
 
-    - match: '{{generic_mission}}'
+    - match: '\b({{generic_mission}})\b'
       scope: keyword.control.moos
-    # - match: '{{known_apps}}'
+    # - match: '\b({{known_apps}})\b'
     #   scope: support.function
 
   comment_line:
@@ -48,15 +48,19 @@ contexts:
   generics:
     - match: \b(true|false)\b
       scope: constant.language
+    - match: '(\#ifdef [A-Z_\-]*|\#elseifdef [A-Z_\-]*)'
+      scope: entity.name.interface
+    - match: '(\$\(.*\)|\#include|\#ifdef|\#elseifdef|\#endif|\#else)'
+      scope: entity.name.interface
 
   moos_apps:
-    - match: '{{generic_mission}}'
+    - match: '\b({{generic_mission}})\b'
       scope: keyword.declaration
-    - match: '{{known_apps}}'
+    - match: '\b({{known_apps}})\b'
       scope: support.function
 
   moos_bhvs:
-    - match: '{{generic_bhv}}'
+    - match: '\b({{generic_bhv}})\b'
       scope: keyword.declaration
 
   close_block:
@@ -65,6 +69,7 @@ contexts:
       pop: true
 
 
+  # ----------------------------------------------
   process_config:
     - match: "{"
       scope: punctuation.section.block.begin
@@ -79,7 +84,7 @@ contexts:
           scope: keyword.declaration
         - match: '~\W*\b(\w*)\b'
           captures:
-            1: entity.name.type
+            1: markup.italic
         - match: '^(?!\W*Run\W*=).*~.*$'
           scope: invalid.illegal
         - include: moos_apps
@@ -461,7 +466,7 @@ contexts:
           scope: keyword.declaration
 
     - match: \b(\w*)\b
-      scope: entity.name.type
+      scope: markup.italic
       set:
         - match: '\b({{generic_mission}})\b'
           scope: keyword.declaration
@@ -469,6 +474,7 @@ contexts:
       pop: true
 
 
+  # ----------------------------------------------
   bhv_config:
     - match: "{"
       scope: punctuation.section.block.begin

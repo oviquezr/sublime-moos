@@ -1,0 +1,16 @@
+<snippet>
+  <content><![CDATA[
+//----------------------------------------------
+Behavior = ${1:BHV_NAME}
+{
+  name      = ${2:bhv_name}
+  pwt       = 100
+  condition = ${3:RETURN = false}
+  condition = ${4:DEPLOY = true}
+
+  // ${5:insert custom code here}
+}
+]]></content>
+  <tabTrigger>Behavior</tabTrigger>
+  <scope>source.moos</scope>
+</snippet>

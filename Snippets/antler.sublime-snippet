@@ -1,0 +1,14 @@
+<snippet>
+  <content><![CDATA[
+ProcessConfig = ANTLER
+{
+  MSBetweenLaunches = 200
+
+  Run = MOOSDB       @ NewConsole = false
+  Run = ${1:APP_1}      @ NewConsole = true
+  Run = ${2:APP_2}      @ NewConsole = true ~ ${3:ALIAS_2}
+}
+]]></content>
+  <tabTrigger>ANTLER</tabTrigger>
+  <scope>source.moos</scope>
+</snippet>

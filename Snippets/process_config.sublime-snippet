@@ -1,0 +1,14 @@
+<snippet>
+  <content><![CDATA[
+//------------------------------------------
+ProcessConfig = ${1:APP_NAME}
+{
+  AppTick   = 4
+  CommsTick = 4
+
+  // ${2:insert custom code here}
+}
+]]></content>
+  <tabTrigger>ProcessConfig</tabTrigger>
+  <scope>source.moos</scope>
+</snippet>
