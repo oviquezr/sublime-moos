@@ -48,9 +48,9 @@ contexts:
   generics:
     - match: \b(true|false)\b
       scope: constant.language
-    - match: '(\#ifdef [A-Z_\-]*|\#elseifdef [A-Z_\-]*)'
+    - match: '(\#ifdef|\#ifndef|\#elseifdef) [A-Za-z0-9_\-]*'
       scope: entity.name.interface
-    - match: '(\$\(.*\)|\#include|\#ifdef|\#elseifdef|\#endif|\#else)'
+    - match: '(\$\(.*\)|\#include|\#ifdef|\#ifndef|\#elseifdef|\#endif|\#else)'
       scope: entity.name.interface
 
   moos_apps:
